@@ -3,312 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>素粒子質量階層性の幾何学的起源としてのフィボナッチ螺旋</title>
+    <title>黄金螺旋理論：宇宙の構造</title>
     <style>
-        * {
+        /* 基本的なページスタイルの設定 */
+        body, html {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
             width: 100%;
+            height: 100%;
+            font-family: sans-serif;
+            background-color: #f0f0f0; /* 背景色を少しグレーに */
+            display: flex;
+            flex-direction: column; /* 要素を縦に並べる */
+        }
+
+        /* ヘッダー部分のスタイル */
+        header {
+            background-color: #24292e; /* GitHub風の黒色 */
+            color: white;
+            padding: 1rem;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            flex-shrink: 0; /* ヘッダーが縮まないようにする */
         }
 
         h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
+            margin: 0;
+            font-size: 1.5rem;
         }
 
-        .subtitle {
-            font-size: 1.8rem;
-            color: #555;
-            margin-bottom: 30px;
-            font-weight: 300;
+        /* PDFを埋め込むコンテナのスタイル */
+        .pdf-container {
+            flex-grow: 1; /* 残りの高さいっぱいに広げる */
+            width: 100%;
+            overflow: hidden; /* はみ出しを隠す */
         }
 
-        .description {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 40px;
-            line-height: 1.8;
-        }
-
-        .pdf-links {
-            display: flex;
-            gap: 30px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
-        }
-
-        .pdf-card {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 15px;
-            padding: 25px;
-            min-width: 250px;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            border: none;
-            display: block;
-        }
-
-        .pdf-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+        /* PDFを埋め込むためのiframeのスタイル */
+        iframe {
+            border: none; /* フレームの境界線を消す */
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .pdf-card:hover::before {
-            left: 100%;
-        }
-
-        .pdf-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .pdf-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .pdf-card p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            margin-bottom: 15px;
-        }
-
-        .pdf-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-            display: block;
-        }
-
-        .language-toggle {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-        .lang-btn {
-            background: transparent;
-            border: 2px solid #667eea;
-            color: #667eea;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .lang-btn.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .lang-btn:hover {
-            background: #667eea;
-            color: white;
-        }
-
-        .content.en .ja-text {
-            display: none;
-        }
-
-        .content.ja .en-text {
-            display: none;
-        }
-
-        .footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            color: #777;
-            font-size: 0.9rem;
-        }
-
-        .github-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-            cursor: pointer;
-        }
-
-        .github-link:hover {
-            color: #764ba2;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 30px 20px;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 1.4rem;
-            }
-
-            .pdf-links {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .pdf-card {
-                min-width: 200px;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="language-toggle">
-            <button class="lang-btn active" id="btn-ja">日本語</button>
-            <button class="lang-btn" id="btn-en">English</button>
-        </div>
 
-        <div class="content ja" id="content">
-            <h1 class="ja-text">素粒子質量階層性の幾何学的起源としてのフィボナッチ螺旋</h1>
-            <h1 class="en-text">The Fibonacci Spiral as the Geometric Origin of the Particle Mass Hierarchy</h1>
-            
-            <p class="subtitle ja-text">理論物理学研究論文</p>
-            <p class="subtitle en-text">Theoretical Physics Research Paper</p>
+    <header>
+        <h1>黄金螺旋理論：宇宙の構造 (The Golden Spiral Theory: Unraveling the Structure of the Universe)</h1>
+    </header>
 
-            <div class="description">
-                <p class="ja-text">
-                    本研究では、フィボナッチ螺旋の幾何学的性質と素粒子の質量階層性の関係について探究しています。
-                    黄金比に基づく螺旋構造が、標準模型における粒子質量の分布に与える影響を数学的に解析し、
-                    新たな理論的枠組みを提示します。
-                </p>
-                <p class="en-text">
-                    This research explores the relationship between the geometric properties of the Fibonacci spiral 
-                    and the mass hierarchy of elementary particles. We mathematically analyze the influence of 
-                    golden ratio-based spiral structures on particle mass distribution in the Standard Model 
-                    and present a new theoretical framework.
-                </p>
-            </div>
-
-            <div class="pdf-links">
-                <div class="pdf-card" id="pdf-japanese">
-                    <div class="pdf-icon">📄</div>
-                    <h3 class="ja-text">日本語版PDF</h3>
-                    <h3 class="en-text">Japanese Version</h3>
-                    <p class="ja-text">日本語で書かれた完全版論文</p>
-                    <p class="en-text">Complete paper in Japanese</p>
-                </div>
-
-                <div class="pdf-card" id="pdf-english">
-                    <div class="pdf-icon">📄</div>
-                    <h3 class="ja-text">英語版PDF</h3>
-                    <h3 class="en-text">English Version</h3>
-                    <p class="ja-text">英語で書かれた完全版論文</p>
-                    <p class="en-text">Complete paper in English</p>
-                </div>
-            </div>
-
-            <div class="footer">
-                <p class="ja-text">
-                    <span class="github-link" id="github-link">
-                        <span>⚡</span>
-                        GitHubリポジトリで詳細を見る
-                    </span>
-                </p>
-                <p class="en-text">
-                    <span class="github-link" id="github-link-en">
-                        <span>⚡</span>
-                        View details on GitHub Repository
-                    </span>
-                </p>
-            </div>
-        </div>
+    <div class="pdf-container">
+        <iframe src="goldenuniverse.pdf" title="論文PDF">
+            お使いのブラウザはPDFの埋め込み表示に対応していません。
+            <a href="goldenuniverse.pdf">こちらからPDFをダウンロード</a>してください。
+        </iframe>
     </div>
 
-    <script>
-        // DOM要素を取得
-        const btnJa = document.getElementById('btn-ja');
-        const btnEn = document.getElementById('btn-en');
-        const content = document.getElementById('content');
-        const pdfJapanese = document.getElementById('pdf-japanese');
-        const pdfEnglish = document.getElementById('pdf-english');
-        const githubLink = document.getElementById('github-link');
-        const githubLinkEn = document.getElementById('github-link-en');
-
-        // 言語切り替え機能
-        btnJa.addEventListener('click', function() {
-            content.className = 'content ja';
-            btnJa.classList.add('active');
-            btnEn.classList.remove('active');
-        });
-
-        btnEn.addEventListener('click', function() {
-            content.className = 'content en';
-            btnEn.classList.add('active');
-            btnJa.classList.remove('active');
-        });
-
-        // PDF開く機能
-        pdfJapanese.addEventListener('click', function() {
-            const url = 'https://github.com/RyukuLogos/The-Fibonacci-Spiral-as-the-Geometric-Origin-of-the-Particle-Mass-Hierarchy/raw/main/日本語RAT.pdf';
-            window.open(url, '_blank');
-        });
-
-        pdfEnglish.addEventListener('click', function() {
-            const url = 'https://github.com/RyukuLogos/The-Fibonacci-Spiral-as-the-Geometric-Origin-of-the-Particle-Mass-Hierarchy/raw/main/The_Fibonacci_Spiral_as_the_Geometric_Origin_of_the_Particle_Mass_Hierarchy.pdf';
-            window.open(url, '_blank');
-        });
-
-        // GitHubリンク
-        githubLink.addEventListener('click', function() {
-            window.open('https://github.com/RyukuLogos/The-Fibonacci-Spiral-as-the-Geometric-Origin-of-the-Particle-Mass-Hierarchy', '_blank');
-        });
-
-        githubLinkEn.addEventListener('click', function() {
-            window.open('https://github.com/RyukuLogos/The-Fibonacci-Spiral-as-the-Geometric-Origin-of-the-Particle-Mass-Hierarchy', '_blank');
-        });
-    </script>
 </body>
 </html>
